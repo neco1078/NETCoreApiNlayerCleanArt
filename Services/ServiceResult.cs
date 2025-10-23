@@ -53,3 +53,48 @@ public class ServiceResult<T>
 
 
 }
+
+public class ServiceResult
+{
+   
+
+    public List<string>? ErrorMessage { get; set; }
+
+    public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
+
+    public bool IsFail => !IsSuccess;
+
+    public HttpStatusCode Status { get; set; }
+
+
+    //static factory methods
+    public static ServiceResult Succecss( HttpStatusCode status = HttpStatusCode.OK)
+    {
+        return new ServiceResult()
+        {
+            
+            Status = status
+        };
+    }
+    public static ServiceResult Fail(List<string> errors, HttpStatusCode status = HttpStatusCode.BadRequest)
+    {
+        return new ServiceResult()
+        {
+            ErrorMessage = errors,
+            Status = status
+        };
+    }
+    public static ServiceResult Fail(string error, HttpStatusCode status = HttpStatusCode.BadRequest)
+    {
+        return new ServiceResult()
+        {//  ErrorMessage = { error}
+            ErrorMessage = new List<string>() { error }
+
+            ,
+            Status = status
+        };
+    }
+
+
+
+}
