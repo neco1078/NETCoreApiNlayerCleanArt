@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,7 +69,7 @@ namespace App.Services.Products
             product.Stock = request.Stock;
             productRepository.UpdateAsync(product);
             await unitOfWork.SaveChangesAsync();
-            return ServiceResult.Succecss();
+            return ServiceResult.Succecss(HttpStatusCode.NoContent);
         }
 
         public async Task<ServiceResult> DeleteAsync(int id)
@@ -80,7 +81,7 @@ namespace App.Services.Products
             }
             productRepository.DeleteAsync(product);
             await unitOfWork.SaveChangesAsync();
-            return ServiceResult.Succecss();
+            return ServiceResult.Succecss(HttpStatusCode.NoContent);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace App.Services;
@@ -14,11 +15,11 @@ public class ServiceResult<T>
     public T? Data { get; set; }
 
     public List<string>? ErrorMessage { get; set; }
-
+    [JsonIgnore]
     public bool IsSuccess=>ErrorMessage == null || ErrorMessage.Count==0;
-
+    [JsonIgnore]
     public bool IsFail=>!IsSuccess;
-
+    [JsonIgnore]
     public HttpStatusCode Status {get;set;}
 
 
@@ -60,10 +61,11 @@ public class ServiceResult
 
     public List<string>? ErrorMessage { get; set; }
 
+    [JsonIgnore]
     public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
-
+    [JsonIgnore]
     public bool IsFail => !IsSuccess;
-
+    [JsonIgnore]
     public HttpStatusCode Status { get; set; }
 
 

@@ -16,7 +16,7 @@ namespace App.API.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var serviceResult = await productService.GetByIdAsync(id);
@@ -30,14 +30,14 @@ namespace App.API.Controllers
             return CreateActionResult(serviceResult);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateProductRequest request)
         {
             var serviceResult = await productService.UpdateAsync(id, request);
             return CreateActionResult(serviceResult);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var serviceResult = await productService.DeleteAsync(id);
