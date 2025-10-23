@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace App.Services.Products
 {
-    public class ProductService(IProductRepository productRepository)
+    public class ProductService(IProductRepository productRepository): IProductService
     {
-
+        public Task<List<Product>> GetToPriceProductsAsync(int count)
+        {
+          return productRepository.GetTopPriceProductsAsync(count);
+        }
     }
 }
