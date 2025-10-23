@@ -37,7 +37,7 @@ namespace App.API.Controllers
             return CreateActionResult(serviceResult);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}")]//tam güncelleme
         public async Task<IActionResult> Update(int id, UpdateProductRequest request)
         {
             var serviceResult = await productService.UpdateAsync(id, request);
@@ -50,5 +50,18 @@ namespace App.API.Controllers
             var serviceResult = await productService.DeleteAsync(id);
             return CreateActionResult(serviceResult);
         }
+
+        [HttpPatch("stock")]//kısmı güncelleme
+        public async Task<IActionResult> UpdateStock(UpdateProductStockRequest request)
+        {
+            return CreateActionResult(await productService.UpdateStockAsync(request));
+        }
+
+        //[HttpPut("UpdateStock")]//kısmı güncelleme
+        //public async Task<IActionResult> UpdateStock(UpdateProductStockRequest request)
+        //{
+        //    return CreateActionResult(await productService.UpdateStockAsync(request));
+        //}
+
     }
 }
