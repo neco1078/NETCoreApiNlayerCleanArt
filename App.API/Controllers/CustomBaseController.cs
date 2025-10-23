@@ -15,11 +15,17 @@ namespace App.API.Controllers
         {
             if(result.Status==HttpStatusCode.NoContent)
             {
-                return new ObjectResult(null)
-                {
-                    StatusCode = result.Status.GetHashCode()
-                };
+                return NoContent();
+                //return new ObjectResult(null)
+                //{
+                //    StatusCode = result.Status.GetHashCode()
+                //};
             }
+            if (result.Status == HttpStatusCode.Created)
+            {
+                return Created(result.UrlAsCreated,result.Data);
+            }
+
             return new ObjectResult(result)
             {
                 StatusCode = result.Status.GetHashCode()

@@ -21,7 +21,8 @@ public class ServiceResult<T>
     public bool IsFail=>!IsSuccess;
     [JsonIgnore]
     public HttpStatusCode Status {get;set;}
-
+    [JsonIgnore]
+    public string? UrlAsCreated { get; set; }
 
     //static factory methods
     public static ServiceResult<T> Succecss(T data,HttpStatusCode status=HttpStatusCode.OK)
@@ -30,6 +31,15 @@ public class ServiceResult<T>
         {
             Data = data,
             Status=status
+        };
+    }
+    public static ServiceResult<T> SuccecssAsCreated(T data,string urlAsCreated)
+    {
+        return new ServiceResult<T>()
+        {
+            Data = data,
+            Status = HttpStatusCode.Created,
+            UrlAsCreated= urlAsCreated
         };
     }
     public static ServiceResult<T> Fail(List<string> errors, HttpStatusCode status = HttpStatusCode.BadRequest)
