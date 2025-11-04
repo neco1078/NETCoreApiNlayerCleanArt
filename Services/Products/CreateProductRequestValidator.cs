@@ -20,6 +20,7 @@ namespace App.Services.Products
             //price validation
             RuleFor(x => x.Price)
                 .GreaterThan(0).WithMessage("ürün fiyatı 0 dan büyük olmalıdır");
+           //stock validation
             RuleFor(x => x.Stock)
                .InclusiveBetween(1,100).WithMessage("stok adedi 1-100 arasında olmalıdır");
         }
