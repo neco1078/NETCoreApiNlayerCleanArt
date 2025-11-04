@@ -50,6 +50,22 @@ namespace App.Services.Products
 
         public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)
         {
+            
+            //2.yol async service business check
+            var anyProducts=await productRepository.Where(x=>x.Name==request.Name).AnyAsync();
+            if (anyProducts)
+            {
+                return ServiceResult<CreateProductResponse>.Fail("ürün ismi DB de bulunmaktadır",HttpStatusCode.BadRequest);
+            }
+            //3.yol manuel async fluent validation businness check
+            //var validationResult = await CreateProductRequestValidator.ValidateAsync(request);
+
+            //if (validationResult.isValid) {
+
+            //    return ServiceResult<CreateProductResponse>.Fail(validationResult.Errors.Select(x => x.ErrorMessage).ToList());
+            //}
+
+
             var newProduct = new Product()
             {
                 Name = request.Name,
