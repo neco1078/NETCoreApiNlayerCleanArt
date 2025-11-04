@@ -56,7 +56,8 @@ namespace App.Services.Products
 
             if (product is null)
             {
-              ServiceResult<ProductDTO>.Fail("Product not found", System.Net.HttpStatusCode.NotFound); 
+             return ServiceResult<ProductDTO?>.Fail("Product not found", System.Net.HttpStatusCode.NotFound);
+                
             }
             //var productAsDto = new ProductDTO(product!.Id,product.Name,product.Price,product.Stock);
             var productAsDto = mapper.Map<ProductDTO>(product);

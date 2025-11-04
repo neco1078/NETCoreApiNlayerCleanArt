@@ -14,7 +14,7 @@ namespace App.Services.Extensions;
 public static class ServiceExtensions
 {
 
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration,Assembly assembly)
+    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IProductService, ProductService>();
         services.AddFluentValidationAutoValidation();
