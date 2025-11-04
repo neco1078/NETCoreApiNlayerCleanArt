@@ -1,5 +1,9 @@
 ﻿using App.Repositories;
 using App.Repositories.Products;
+using App.Services.Products.Create;
+using App.Services.Products.Update;
+using AutoMapper;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +14,11 @@ using System.Threading.Tasks;
 
 namespace App.Services.Products
 {
-    public class ProductService(IProductRepository productRepository,IUnitOfWork unitOfWork): IProductService
+    public class ProductService(
+        IProductRepository productRepository,
+        IUnitOfWork unitOfWork,
+       // IValidator<CreateProductRequest> createProductRequestValidator,
+        IMapper mapper): IProductService
     {
         public async Task<ServiceResult<List<ProductDTO>>> GetTopPriceProductsAsync(int count)
         {
@@ -23,7 +31,10 @@ namespace App.Services.Products
         public async Task<ServiceResult<List<ProductDTO>>> GetAllListAsync()
         {
             var products = await productRepository.GetAll().ToListAsync() ;
-            var productAsDto = products.Select(p => new ProductDTO(p.Id, p.Name, p.Price, p.Stock)).ToList();
+            //manuel mapping
+           // var productAsDto = products.Select(p => new ProductDTO(p.Id, p.Name, p.Price, p.Stock)).ToList();
+            
+            var productAsDto=mapper.Map<List<ProductDTO>>(products) ;
             return ServiceResult<List<ProductDTO>>.Succecss(productAsDto);
         }
 
@@ -32,7 +43,10 @@ namespace App.Services.Products
             var products = await productRepository.GetAll().Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-            var productAsDto = products.Select(p => new ProductDTO(p.Id, p.Name, p.Price, p.Stock)).ToList();
+            //manuel mapping
+            // var productAsDto = products.Select(p => new ProductDTO(p.Id, p.Name, p.Price, p.Stock)).ToList();
+
+            var productAsDto = mapper.Map<List<ProductDTO>>(products);
             return ServiceResult<List<ProductDTO>>.Succecss(productAsDto);
         }
 
@@ -44,8 +58,10 @@ namespace App.Services.Products
             {
               ServiceResult<ProductDTO>.Fail("Product not found", System.Net.HttpStatusCode.NotFound); 
             }
-            var produstAsDto = new ProductDTO(product!.Id,product.Name,product.Price,product.Stock);
-          return ServiceResult<ProductDTO>.Succecss(produstAsDto)!;
+            //var productAsDto = new ProductDTO(product!.Id,product.Name,product.Price,product.Stock);
+            var productAsDto = mapper.Map<ProductDTO>(product);
+
+            return ServiceResult<ProductDTO>.Succecss(productAsDto)!;
         }
 
         public async Task<ServiceResult<CreateProductResponse>> CreateAsync(CreateProductRequest request)

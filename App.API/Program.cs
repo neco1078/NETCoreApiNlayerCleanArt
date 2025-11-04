@@ -3,6 +3,8 @@ using App.Repositories.Extensions;
 using App.Services;
 using App.Services.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
