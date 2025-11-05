@@ -32,7 +32,7 @@ namespace App.Services.Products.Create
             //stock validation
             RuleFor(x => x.Stock)
                .InclusiveBetween(1, 100).WithMessage("stok adedi 1-100 arasında olmalıdır");
-            _productRepository = productRepository;
+            
         }
         //1.yol senkron validasyon
         // private bool MustUniqueProductName(string name)
