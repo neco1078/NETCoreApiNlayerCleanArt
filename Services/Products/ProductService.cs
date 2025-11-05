@@ -103,7 +103,7 @@ namespace App.Services.Products
             var product = await productRepository.GetByIdAsync(id);
             if (product is null)
             {
-                return ServiceResult.Fail("Product not found", System.Net.HttpStatusCode.NotFound);
+                return ServiceResult.Fail("güncellenecek ürün bulunamadı", System.Net.HttpStatusCode.NotFound);
             }
 
             var isProductNameExist = await productRepository.Where(x => x.Name == request.Name && x.Id!=product.Id).AnyAsync();
