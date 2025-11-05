@@ -26,7 +26,8 @@ namespace App.Services.Products
         {
             var products = await productRepository.GetTopPriceProductsAsync(count);
             //manuel mapper
-            var productAsDto = products.Select(p => new ProductDTO(p.Id, p.Name, p.Price, p.Stock)).ToList();
+           // var productAsDto = products.Select(p => new ProductDTO(p.Id, p.Name, p.Price, p.Stock)).ToList();
+            var productAsDto = mapper.Map<List<ProductDTO>>(products);
             return ServiceResult<List<ProductDTO>>.Succecss(productAsDto);
         }
 
@@ -85,13 +86,8 @@ namespace App.Services.Products
             //    return ServiceResult<CreateProductResponse>.Fail(validationResult.Errors.Select(x => x.ErrorMessage).ToList());
             //}
 
-
-            var newProduct = new Product()
-            {
-                Name = request.Name,
-                Price = request.Price,
-                Stock = request.Stock
-            };
+            //request productsa dönüştür.nesneolmadıgı için generic verdim
+            var newProduct = mapper.Map<Product>(request);
             await productRepository.AddAsync(newProduct);
             await unitOfWork.SaveChangesAsync();
           
@@ -115,9 +111,12 @@ namespace App.Services.Products
             {
                 return ServiceResult.Fail("ürün ismi DB de bulunmaktadır", HttpStatusCode.BadRequest);
             }
-            product.Name = request.Name;
-            product.Price = request.Price;
-            product.Stock = request.Stock;
+            //product.Name = request.Name;
+            //product.Price = request.Price;
+            //product.Stock = request.Stock;
+
+            //product nesnesi zaten vardı
+            product=mapper.Map(request,product);
             productRepository.UpdateAsync(product);
             await unitOfWork.SaveChangesAsync();
             return ServiceResult.Succecss(HttpStatusCode.NoContent);
