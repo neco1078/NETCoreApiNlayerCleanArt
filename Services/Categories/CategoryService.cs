@@ -2,6 +2,7 @@
 using App.Repositories.Categories;
 using App.Repositories.Products;
 using App.Services.Categories.Create;
+using App.Services.Categories.Dto;
 using App.Services.Categories.Update;
 using App.Services.Products.Create;
 using AutoMapper;
@@ -33,7 +34,7 @@ namespace App.Services.Categories
 
         public async Task<ServiceResult<List<CategoryWithProductsDTO>>> GetCategoryWithProductsAsync()
         {
-            var category = await categoryRepository.GetCategoryWithProducts().ToListAsync();
+            var category = await categoryRepository.GetCategoryWithProductsAsync().ToListAsync();
          
             var categoryAsDto = mapper.Map<List<CategoryWithProductsDTO>>(category);
             return ServiceResult<List<CategoryWithProductsDTO>>.Succecss(categoryAsDto);
